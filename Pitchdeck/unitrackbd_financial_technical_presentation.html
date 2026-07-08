@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UniTrack BD — Financial Viability & Execution Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#07101E;--blue:#1A3C8F;--amber:#F6A623;--green:#12C972;--red:#FF4757;--glass:rgba(255,255,255,0.07);--border:rgba(255,255,255,0.12);--muted:rgba(255,255,255,0.5)}
+body{font-family:'Inter',sans-serif;background:var(--navy);color:#fff;overflow:hidden;height:100vh}
+#deck{position:relative;width:100%;height:100vh}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 60px;opacity:0;transform:translateX(80px);transition:all .55s cubic-bezier(.4,0,.2,1);pointer-events:none;overflow-y:auto}
+.slide.active{opacity:1;transform:none;pointer-events:all}
+.live-indicator{position:fixed;top:24px;right:28px;display:flex;align-items:center;gap:7px;z-index:200;font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--amber);font-family:'Space Grotesk',sans-serif}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);position:relative}
+.live-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1.5px solid var(--green);animation:pulse-live 1.8s infinite}
+@keyframes pulse-live{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(2.5)}}
+.nav{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px;z-index:200;background:rgba(255,255,255,0.07);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:40px;padding:10px 20px}
+.nav-btn{background:none;border:none;color:rgba(255,255,255,0.7);font-size:18px;cursor:pointer;padding:2px 10px;border-radius:8px;transition:all .2s}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,0.1)}
+.slide-count{font-size:12px;color:var(--muted);min-width:48px;text-align:center;font-family:'Space Grotesk',sans-serif}
+.dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;z-index:200}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all .25s}
+.dot.active{background:var(--amber);transform:scale(1.6)}
+.bg-cover{background:linear-gradient(135deg,#0F2460 0%,#07101E 100%)}
+.bg-fin{background:linear-gradient(135deg,#0D2247 0%,#07101E 100%)}
+.bg-roadmap{background:linear-gradient(135deg,#071F10 0%,#07101E 100%)}
+.bg-tech{background:linear-gradient(135deg,#0D1F3C 0%,#07101E 100%)}
+.bg-ui{background:linear-gradient(135deg,#1F0D00 0%,#07101E 100%)}
+.bg-timeline{background:linear-gradient(135deg,#0B2447 0%,#07101E 100%)}
+.bg-metrics{background:linear-gradient(135deg,#2A0E0E 0%,#07101E 100%)}
+.bg-thanks{background:linear-gradient(135deg,#1A3C8F 0%,#07101E 100%)}
+.eyebrow{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+.display{font-family:'Space Grotesk',sans-serif;font-weight:900;line-height:1.0}
+.title{font-family:'Space Grotesk',sans-serif;font-weight:700;line-height:1.1}
+.card{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:22px;transition:border-color .3s}
+.card:hover{border-color:rgba(255,255,255,0.25)}
+.reveal{opacity:0;transform:translateY(18px)}
+.slide.active .reveal{animation:fadeUp .6s forwards}
+.reveal.d1{animation-delay:.1s}.reveal.d2{animation-delay:.25s}.reveal.d3{animation-delay:.4s}.reveal.d4{animation-delay:.55s}.reveal.d5{animation-delay:.7s}.reveal.d6{animation-delay:.85s}.reveal.d7{animation-delay:1s}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+.badge{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:600;display:inline-block}
+.badge-amber{background:rgba(246,166,35,.15);color:var(--amber);border:1px solid rgba(246,166,35,.3)}
+.badge-green{background:rgba(18,201,114,.15);color:var(--green);border:1px solid rgba(18,201,114,.3)}
+.badge-blue{background:rgba(26,60,143,.3);color:#7BA7FF;border:1px solid rgba(26,60,143,.5)}
+.timeline-item{display:flex;gap:16px;margin-bottom:16px}
+.timeline-dot{width:24px;height:24px;border-radius:50%;background:var(--amber);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#000}
+.timeline-content{flex:1}
+.timeline-content .title{font-size:14px;margin-bottom:4px}
+.timeline-content p{font-size:12px;color:var(--muted);line-height:1.6}
+.metric-box{text-align:center;padding:16px;background:rgba(255,255,255,0.04);border-radius:12px;border:1px solid rgba(255,255,255,0.08)}
+.metric-box .value{font-size:28px;font-weight:900;color:var(--amber);font-family:'Space Grotesk',sans-serif;margin:6px 0}
+.metric-box .label{font-size:12px;color:var(--muted)}
+.phase-box{padding:18px;background:var(--glass);border:1px solid var(--border);border-radius:12px;margin-bottom:12px}
+.phase-box.phase1{border-left:3px solid var(--amber)}
+.phase-box.phase2{border-left:3px solid var(--green)}
+.phase-box.phase3{border-left:3px solid #7BA7FF}
+.phase-box .phase-title{font-weight:600;font-size:13px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.phase-box p{font-size:12px;color:var(--muted);line-height:1.6}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tech-stack{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tech-item{font-size:12px;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:8px}
+.ui-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+.ui-frame{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;text-align:center;font-size:11px;color:var(--muted)}
+.ui-frame img{max-width:100%;height:auto;border-radius:8px;margin-bottom:6px}
+.step-num{width:30px;height:30px;border-radius:50%;background:var(--amber);color:#000;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="live-indicator"><div class="live-dot"></div>LIVE</div>
+<div id="deck">
+
+<!-- SLIDE 1: COVER -->
+<div class="slide bg-cover active" id="s1">
+  <div style="text-align:center;max-width:900px;z-index:1">
+    <div class="eyebrow reveal d1">Presentation 2 • July 23, 2025</div>
+    <div class="display reveal d2" style="font-size:clamp(48px,7vw,72px);margin-bottom:12px">Uni<span style="color:var(--amber)">Track</span> BD</div>
+    <div class="reveal d3" style="font-size:18px;color:rgba(255,255,255,0.7);margin-bottom:28px;font-weight:500">Financial Viability &amp; Execution Roadmap</div>
+    <div class="reveal d4" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:32px">
+      <span class="badge badge-amber">15-Minute Presentation</span>
+      <span class="badge badge-green">Rollout Strategy</span>
+      <span class="badge badge-blue">Complete UI/UX</span>
+    </div>
+    <div class="reveal d5" style="font-size:13px;color:rgba(255,255,255,0.4)">Team of 5 • ULAB Software Engineering 2025</div>
+  </div>
+</div>
+
+<!-- SLIDE 2: AGENDA -->
+<div class="slide bg-fin" id="s2">
+  <div style="width:100%;max-width:1000px">
+    <div class="eyebrow reveal d1">Today's Agenda</div>
+    <div class="title reveal d2" style="font-size:clamp(28px,4vw,44px);margin-bottom:32px">What We'll Cover in 15 Minutes</div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="reveal d2" style="display:flex;gap:16px">
+        <div class="step-num">1</div>
+        <div><div class="title" style="font-size:16px;margin-bottom:4px">Financial Viability</div><div style="font-size:13px;color:var(--muted)">Revenue model, unit economics, break-even analysis for Stage 1</div></div>
+      </div>
+      <div class="reveal d3" style="display:flex;gap:16px">
+        <div class="step-num">2</div>
+        <div><div class="title" style="font-size:16px;margin-bottom:4px">Execution Roadmap</div><div style="font-size:13px;color:var(--muted)">3-phase rollout from ULAB → Dhaka Universities → City-wide</div></div>
+      </div>
+      <div class="reveal d4" style="display:flex;gap:16px">
+        <div class="step-num">3</div>
+        <div><div class="title" style="font-size:16px;margin-bottom:4px">Technical Roadmap</div><div style="font-size:13px;color:var(--muted)">Dev timeline, infrastructure, and feature delivery aligned with phases</div></div>
+      </div>
+      <div class="reveal d5" style="display:flex;gap:16px">
+        <div class="step-num">4</div>
+        <div><div class="title" style="font-size:16px;margin-bottom:4px">UI/UX Showcase</div><div style="font-size:13px;color:var(--muted)">Complete design system and all 15 screens for 3 app types</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: FINANCIAL VIABILITY -->
+<div class="slide bg-fin" id="s3">
+  <div style="width:100%;max-width:1000px;overflow-y:auto;max-height:90vh;padding-bottom:20px">
+    <div class="eyebrow reveal d1" style="color:var(--amber)">Stage 1 Financial Analysis</div>
+    <div class="title reveal d2" style="font-size:clamp(26px,4vw,40px);margin-bottom:20px">ULAB Pilot — <span style="color:var(--amber)">Year 1 Viability</span></div>
+    
+    <div class="g2 reveal d3">
+      <div class="card">
+        <div style="font-size:12px;color:var(--muted);text-transform:uppercase;font-weight:600;margin-bottom:10px">Revenue Streams</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div><div style="font-size:13px;font-weight:600">Setup Fee</div><div style="font-size:28px;color:var(--amber);font-weight:900;font-family:'Space Grotesk',sans-serif">৳15K</div><div style="font-size:11px;color:var(--muted)">One-time onboarding</div></div>
+          <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.08)"><div style="font-size:13px;font-weight:600">Monthly SaaS</div><div style="font-size:28px;color:var(--green);font-weight:900;font-family:'Space Grotesk',sans-serif">৳7K</div><div style="font-size:11px;color:var(--muted)">৳84K/year</div></div>
+          <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.08)"><div style="font-size:13px;font-weight:600">Payment Fees (2%)</div><div style="font-size:28px;color:var(--amber);font-weight:900;font-family:'Space Grotesk',sans-serif">৳120K</div><div style="font-size:11px;color:var(--muted)">On ৳60L annual volume</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:12px;color:var(--muted);text-transform:uppercase;font-weight:600;margin-bottom:10px">Year 1 Projections</div>
+        <div style="background:rgba(18,201,114,0.1);border:1px solid rgba(18,201,114,0.2);border-radius:10px;padding:14px;text-align:center;margin-bottom:12px">
+          <div style="font-size:12px;color:var(--muted);margin-bottom:4px">Total Year 1 Revenue</div>
+          <div style="font-size:32px;font-weight:900;color:var(--green);font-family:'Space Grotesk',sans-serif">৳1.2L - 1.5L</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:11px">
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span>Daily riders (ULAB)</span><span style="color:var(--green);font-weight:600">~500</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><span>Avg fare per trip</span><span style="color:var(--amber);font-weight:600">৳40</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0"><span>Operating days/year</span><span style="color:#7BA7FF;font-weight:600">300</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal d4" style="margin-top:20px">
+      <div class="card">
+        <div style="font-size:12px;color:var(--muted);text-transform:uppercase;font-weight:600;margin-bottom:12px">Unit Economics</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="padding:10px;background:rgba(255,255,255,0.03);border-radius:8px">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Cost per transaction</div>
+            <div style="font-size:18px;font-weight:700">~0.5%</div>
+          </div>
+          <div style="padding:10px;background:rgba(255,255,255,0.03);border-radius:8px">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Revenue per transaction</div>
+            <div style="font-size:18px;font-weight:700">2%</div>
+          </div>
+          <div style="padding:10px;background:rgba(255,255,255,0.03);border-radius:8px">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Gross margin</div>
+            <div style="font-size:18px;font-weight:700;color:var(--green)">~1.5%</div>
+          </div>
+          <div style="padding:10px;background:rgba(255,255,255,0.03);border-radius:8px">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Break-even</div>
+            <div style="font-size:18px;font-weight:700;color:var(--amber)">Month 3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal d5" style="margin-top:16px;padding:12px 16px;background:rgba(18,201,114,0.08);border:1px solid rgba(18,201,114,0.2);border-radius:12px">
+      <div style="font-size:12px;color:var(--green);font-weight:600">✓ Profitable from Month 3 onwards</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">Operating costs for a 1-person + AWS infrastructure ~৳40k/year. Safe margin with ৳1.2L revenue.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: EXECUTION ROADMAP -->
+<div class="slide bg-roadmap" id="s4">
+  <div style="width:100%;max-width:1000px;overflow-y:auto;max-height:90vh;padding-bottom:20px">
+    <div class="eyebrow reveal d1" style="color:var(--green)">3-Phase Rollout Strategy</div>
+    <div class="title reveal d2" style="font-size:clamp(26px,4vw,40px);margin-bottom:20px">How We <span style="color:var(--green)">Scale</span> From Day 1</div>
+    
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="reveal d3 phase-box phase1">
+        <div class="phase-title"><span style="color:var(--amber);font-weight:900">Phase 1:</span> ULAB Pilot (Months 0–4)</div>
+        <p><span style="color:var(--amber);font-weight:600">Goal:</span> Prove product-market fit. Build on known problem with known audience.</p>
+        <p style="margin-top:6px"><span style="color:var(--amber);font-weight:600">Scope:</span> 14 buses, ~500 daily riders.</p>
+        <p style="margin-top:6px"><span style="color:var(--amber);font-weight:600">Revenue:</span> ৳1.2L/year. Break-even month 3.</p>
+      </div>
+
+      <div class="reveal d4 phase-box phase2">
+        <div class="phase-title"><span style="color:var(--green);font-weight:900">Phase 2:</span> University Expansion (Months 4–12)</div>
+        <p><span style="color:var(--green);font-weight:600">Goal:</span> Replicate ULAB success across 10+ universities in Dhaka.</p>
+        <p style="margin-top:6px"><span style="color:var(--green);font-weight:600">Scope:</span> Target NSU, BRAC, DIU, AIUB, IUB, East West, and more. ~150 buses, 10K+ daily riders.</p>
+        <p style="margin-top:6px"><span style="color:var(--green);font-weight:600">Revenue:</span> ৳5-10L/year (5–10 universities live by month 12).</p>
+      </div>
+
+      <div class="reveal d5 phase-box phase3">
+        <div class="phase-title"><span style="color:#7BA7FF;font-weight:900">Phase 3:</span> City Scale (Year 2+)</div>
+        <p><span style="color:#7BA7FF;font-weight:600">Goal:</span> Partner with BRTC &amp; private operators for Dhaka-wide coverage.</p>
+        <p style="margin-top:6px"><span style="color:#7BA7FF;font-weight:600">Scope:</span> 5,000+ city buses, 3.5M daily commuters, integrated with mobile banking.</p>
+        <p style="margin-top:6px"><span style="color:#7BA7FF;font-weight:600">Revenue:</span> ৳5+ crore/year at 10% market capture.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: TECHNICAL ROADMAP -->
+<div class="slide bg-tech" id="s5">
+  <div style="width:100%;max-width:1000px;overflow-y:auto;max-height:90vh;padding-bottom:20px">
+    <div class="eyebrow reveal d1">Technical Execution Plan</div>
+    <div class="title reveal d2" style="font-size:clamp(26px,4vw,40px);margin-bottom:20px">Development <span style="color:var(--green)">Timeline & Milestones</span></div>
+    
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="reveal d3 phase-box phase1">
+        <div class="phase-title" style="margin-bottom:10px"><span style="color:var(--amber)">Phase 1 (Months 1–4):</span> MVP to Pilot</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px">
+          <div style="border-right:1px solid rgba(255,255,255,0.08);padding-right:10px">
+            <div style="color:var(--amber);font-weight:600;margin-bottom:4px">Backend</div>
+            <p style="color:var(--muted);line-height:1.6">• Auth + role system<br>• GPS tracking pipeline<br>• Flash Pass 2.0 system<br>• bKash integration<br>• Socket.io real-time</p>
+          </div>
+          <div>
+            <div style="color:var(--amber);font-weight:600;margin-bottom:4px">Frontend</div>
+            <p style="color:var(--muted);line-height:1.6">• React Native: map, tickets, history<br>• Helper app: capacity slider + QR scanner<br>• Admin: live dashboard + revenue charts<br>• Deploy to Vercel + Railway</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal d4 phase-box phase2">
+        <div class="phase-title" style="margin-bottom:10px"><span style="color:var(--green)">Phase 2 (Months 5–12):</span> Replication & Scale</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px">
+          <div style="border-right:1px solid rgba(255,255,255,0.08);padding-right:10px">
+            <div style="color:var(--green);font-weight:600;margin-bottom:4px">Infrastructure</div>
+            <p style="color:var(--muted);line-height:1.6">• Multi-tenant SaaS layer<br>• Nagad API integration<br>• Data backup &amp; recovery<br>• Performance tuning (1M+ users)</p>
+          </div>
+          <div>
+            <div style="color:var(--green);font-weight:600;margin-bottom:4px">Features</div>
+            <p style="color:var(--muted);line-height:1.6">• ETA prediction from GPS<br>• Semester pass system<br>• Ridership analytics<br>• Incident reporting (SOS)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal d5 phase-box phase3">
+        <div class="phase-title" style="margin-bottom:10px"><span style="color:#7BA7FF">Phase 3 (Year 2):</span> City Integration</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px">
+          <div style="border-right:1px solid rgba(255,255,255,0.08);padding-right:10px">
+            <div style="color:#7BA7FF;font-weight:600;margin-bottom:4px">Integrations</div>
+            <p style="color:var(--muted);line-height:1.6">• BRTC API integration<br>• City traffic data feeds<br>• Government data sharing<br>• Smart Dhaka 2030 compliance</p>
+          </div>
+          <div>
+            <div style="color:#7BA7FF;font-weight:600;margin-bottom:4px">Operations</div>
+            <p style="color:var(--muted);line-height:1.6">• 24/7 support team<br>• Driver onboarding system<br>• Regulatory compliance<br>• City-wide rollout</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: KEY METRICS -->
+<div class="slide bg-metrics" id="s6">
+  <div style="width:100%;max-width:1000px">
+    <div class="eyebrow reveal d1">Success Metrics</div>
+    <div class="title reveal d2" style="font-size:clamp(26px,4vw,40px);margin-bottom:24px">How We'll Measure <span style="color:var(--red)">Success</span></div>
+    
+    <div class="g3 reveal d3">
+      <div class="metric-box">
+        <div class="label">Month 1 Goal</div>
+        <div class="value">500</div>
+        <div class="label">Student downloads</div>
+      </div>
+      <div class="metric-box">
+        <div class="label">Month 2 Goal</div>
+        <div class="value">50%</div>
+        <div class="label">Daily active users</div>
+      </div>
+      <div class="metric-box">
+        <div class="label">Month 3 Goal</div>
+        <div class="value">৳15k+</div>
+        <div class="label">Monthly revenue</div>
+      </div>
+    </div>
+
+    <div class="g3 reveal d4" style="margin-top:16px">
+      <div class="metric-box">
+        <div class="label">Phase 1 End</div>
+        <div class="value">90%</div>
+        <div class="label">Student satisfaction</div>
+      </div>
+      <div class="metric-box">
+        <div class="label">Phase 2 End</div>
+        <div class="value">10+</div>
+        <div class="label">Universities live</div>
+      </div>
+      <div class="metric-box">
+        <div class="label">Phase 3 Goal</div>
+        <div class="value">3.5M</div>
+        <div class="label">Daily Dhaka riders</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: UI/UX SHOWCASE -->
+<div class="slide bg-ui" id="s7">
+  <div style="width:100%;max-width:1000px;overflow-y:auto;max-height:90vh;padding-bottom:20px">
+    <div class="eyebrow reveal d1">Complete Design System</div>
+    <div class="title reveal d2" style="font-size:clamp(26px,4vw,40px);margin-bottom:16px"><span style="color:var(--amber)">15 Screens</span> • 3 App Types • 1 Unified System</div>
+    
+    <div class="reveal d3" style="font-size:13px;color:var(--muted);margin-bottom:16px">All designs built in Figma. Complete component library, color palette, typography, and interactive prototypes ready for development.</div>
+
+    <div class="reveal d3">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <div class="card">
+          <div style="color:var(--amber);font-weight:600;font-size:13px;margin-bottom:8px">📱 Student App</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6">
+            • Splash &amp; Login<br>
+            • Home Dashboard<br>
+            • Live Bus Map<br>
+            • Seat Availability Grid<br>
+            • Flash Pass Ticket<br>
+            • Payment Success<br>
+            • Trip History<br>
+            • Notifications<br>
+            • Profile Screen
+          </div>
+        </div>
+        <div class="card">
+          <div style="color:var(--green);font-weight:600;font-size:13px;margin-bottom:8px">🚌 Helper App</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6">
+            • Helper Dashboard<br>
+            • Board Counter (+/-)<br>
+            • QR Scan Feed<br>
+            • Emergency Alert Screen<br>
+            (5 screens, optimized for 1-thumb operation)
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="color:#7BA7FF;font-weight:600;font-size:13px;margin-bottom:8px">📊 Admin Web Panel</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6">
+          KPI Cards • Live Bus Map • Revenue Chart • Ridership by Route • Recent Activity Feed • Full CRUD for users, buses, routes • Analytics dashboard
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal d4" style="margin-top:14px;padding:12px 16px;background:rgba(246,166,35,0.08);border:1px solid rgba(246,166,35,0.2);border-radius:12px">
+      <div style="font-size:12px;font-weight:600;color:var(--amber)">Design System Includes:</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px">
+        8-color palette (Navy, Blue, Amber, Green, Red, Muted, Border, Background) • Inter + Space Grotesk fonts • 16px border-radius system • Responsive grid (375px base) • 6+ component variants (buttons, cards, badges, inputs, nav bars) • Full Figma prototype with click flows
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: IMPLEMENTATION TIMELINE -->
+<div class="slide bg-timeline" id="s8">
+  <div style="width:100%;max-width:1000px;overflow-y:auto;max-height:90vh;padding-bottom:20px">
+    <div class="eyebrow reveal d1">Month-by-Month Breakdown</div>
+    <div class="title reveal d2" style="font-size:clamp(26px,4vw,40px);margin-bottom:18px">Phase 1: <span style="color:var(--amber)">ULAB Pilot (4 months)</span></div>
+    
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="reveal d3 timeline-item">
+        <div class="timeline-dot">M1</div>
+        <div class="timeline-content">
+          <div class="title">Month 1: Core System</div>
+          <p>Auth system live. GPS tracking on backend. Flash Pass logic coded. Helper app UI started. Database schema finalized. Internal testing begins.</p>
+        </div>
+      </div>
+
+      <div class="reveal d4 timeline-item">
+        <div class="timeline-dot">M2</div>
+        <div class="timeline-content">
+          <div class="title">Month 2: MVP to Beta</div>
+          <p>Student app on TestFlight (50 testers). Helper app live internally. bKash integration testing. Admin dashboard v1 live. Real buses onboarded (4 buses).</p>
+        </div>
+      </div>
+
+      <div class="reveal d5 timeline-item">
+        <div class="timeline-dot">M3</div>
+        <div class="timeline-content">
+          <div class="title">Month 3: Pilot Launch</div>
+          <p>Open public beta: 500–700 student downloads. All 14 ULAB buses live with GPS + Flash Pass. First real revenue. Performance optimization under load. Support team onboarded.</p>
+        </div>
+      </div>
+
+      <div class="reveal d6 timeline-item">
+        <div class="timeline-dot">M4</div>
+        <div class="timeline-content">
+          <div class="title">Month 4: Stabilize &amp; Iterate</div>
+          <p>Bug fixes and feature improvements based on feedback. Student satisfaction survey (target 85%+). Prepare onboarding docs for Phase 2. Demonstrate revenue to investors.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal d7" style="margin-top:16px;padding:12px 16px;background:rgba(18,201,114,0.08);border:1px solid rgba(18,201,114,0.2);border-radius:12px">
+      <div style="font-size:12px;font-weight:600;color:var(--green)">✓ By end of Phase 1:</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">Full product-market fit validation. Reproducible playbook ready for Phase 2 university onboarding. Team of 5 has proven they can ship, support, and iterate.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: RISKS & MITIGATION -->
+<div class="slide bg-fin" id="s9">
+  <div style="width:100%;max-width:1000px;overflow-y:auto;max-height:90vh;padding-bottom:20px">
+    <div class="eyebrow reveal d1">Risk Management</div>
+    <div class="title reveal d2" style="font-size:clamp(26px,4vw,40px);margin-bottom:18px">Anticipating <span style="color:var(--amber)">Challenges</span></div>
+    
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="reveal d3 card">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px">
+          <div style="color:var(--amber);font-weight:600;font-size:13px">⚠️ Low student adoption</div>
+          <span style="font-size:10px;padding:2px 6px;background:rgba(255,71,87,0.15);color:var(--red);border-radius:4px">HIGH</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.6"><span style="color:var(--amber);font-weight:600">Mitigation:</span> Heavy marketing on campus. Free first month. Incentivize early adopters. Partner with student council to push adoption.</p>
+      </div>
+
+      <div class="reveal d4 card">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px">
+          <div style="color:var(--amber);font-weight:600;font-size:13px">⚠️ GPS reliability in Dhaka</div>
+          <span style="font-size:10px;padding:2px 6px;background:rgba(246,166,35,0.15);color:var(--amber);border-radius:4px">MEDIUM</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.6"><span style="color:var(--amber);font-weight:600">Mitigation:</span> Fallback to manual helper input. Test with real buses before launch. Use multiple GPS sources. Graceful degradation mode.</p>
+      </div>
+
+      <div class="reveal d5 card">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px">
+          <div style="color:var(--amber);font-weight:600;font-size:13px">⚠️ Payment gateway delays</div>
+          <span style="font-size:10px;padding:2px 6px;background:rgba(18,201,114,0.15);color:var(--green);border-radius:4px">LOW</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.6"><span style="color:var(--amber);font-weight:600">Mitigation:</span> Integrate bKash early (month 1). Fallback to manual payment during approval. Pre-agreements with Nagad for Phase 2.</p>
+      </div>
+
+      <div class="reveal d6 card">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px">
+          <div style="color:var(--amber);font-weight:600;font-size:13px">⚠️ University bureaucracy</div>
+          <span style="font-size:10px;padding:2px 6px;background:rgba(255,71,87,0.15);color:var(--red);border-radius:4px">HIGH</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.6"><span style="color:var(--amber);font-weight:600">Mitigation:</span> ULAB is our home — we have executive buy-in. Phase 2 universities: partner through student & admin champions. 3–6 month sales cycles planned.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: CONCLUSION -->
+<div class="slide bg-thanks" id="s10">
+  <div style="text-align:center;max-width:800px">
+    <div class="eyebrow reveal d1" style="color:var(--green)">Summary</div>
+    <div class="display reveal d2" style="font-size:clamp(40px,6vw,72px);margin-bottom:20px">Financially <span style="color:var(--amber)">Viable</span></div>
+    <div class="reveal d3" style="font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.7">
+      UniTrack BD is profitable from Month 3 with ৳3.6L annual revenue at ULAB scale.<br>
+      Clear 3-phase roadmap from pilot → universities → city.<br>
+      Technical plan is parallel-tracked and risk-mitigated.<br>
+      Complete UI/UX ready for day 1 development.
+    </div>
+    <div class="reveal d4" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+      <span class="badge badge-amber">Phase 1: 4 months</span>
+      <span class="badge badge-green">Phase 2: 8 months</span>
+      <span class="badge badge-blue">Phase 3: Year 2+</span>
+    </div>
+    <div class="card reveal d5" style="display:inline-block">
+      <div style="font-size:18px;font-weight:800;color:var(--amber)">Questions?</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px">15 minutes for Q&amp;A — all details backed by data &amp; design.</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="nav">
+  <button class="nav-btn" onclick="navigate(-1)">←</button>
+  <div class="slide-count" id="counter">1 / 10</div>
+  <button class="nav-btn" onclick="navigate(1)">→</button>
+</div>
+<div class="dots" id="dots"></div>
+
+<script>
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+let cur=0;
+const dotsEl=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);});
+function goTo(n){slides[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));slides[cur].classList.add('active');slides[cur].querySelectorAll('.reveal').forEach(el=>{el.style.animation='none';void el.offsetWidth;el.style.animation='';});document.getElementById('counter').textContent=(cur+1)+' / '+total;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===cur));}
+function navigate(dir){goTo(cur+dir);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')navigate(1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')navigate(-1);});
+goTo(0);
+</script>
+</body>
+</html>

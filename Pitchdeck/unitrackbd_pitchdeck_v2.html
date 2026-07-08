@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UniTrack BD — Pitch Deck v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#07101E;--blue:#1A3C8F;--amber:#F6A623;--green:#12C972;--red:#FF4757;--glass:rgba(255,255,255,0.07);--border:rgba(255,255,255,0.12);--muted:rgba(255,255,255,0.5)}
+body{font-family:'Inter',sans-serif;background:var(--navy);color:#fff;overflow:hidden;height:100vh}
+#deck{position:relative;width:100%;height:100vh}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:48px 80px;opacity:0;transform:translateX(80px);transition:all .55s cubic-bezier(.4,0,.2,1);pointer-events:none}
+.slide.active{opacity:1;transform:none;pointer-events:all}
+.slide.exit{opacity:0;transform:translateX(-80px)}
+.live-indicator{position:fixed;top:24px;right:28px;display:flex;align-items:center;gap:7px;z-index:200;font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--amber);font-family:'Space Grotesk',sans-serif}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);position:relative}
+.live-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1.5px solid var(--green);animation:pulse-live 1.8s infinite}
+@keyframes pulse-live{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(2.5)}}
+.nav{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px;z-index:200;background:rgba(255,255,255,0.07);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:40px;padding:10px 20px}
+.nav-btn{background:none;border:none;color:rgba(255,255,255,0.7);font-size:18px;cursor:pointer;padding:2px 10px;border-radius:8px;transition:all .2s;font-family:'Space Grotesk',sans-serif}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,0.1)}
+.slide-count{font-size:12px;color:var(--muted);min-width:48px;text-align:center;font-family:'Space Grotesk',sans-serif}
+.dots{position:fixed;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:7px;z-index:200}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all .25s}
+.dot.active{background:var(--amber);transform:scale(1.6)}
+.dot:hover{background:rgba(255,255,255,0.6)}
+.s1{background:radial-gradient(ellipse at 30% 40%,#0F2460 0%,#07101E 65%)}
+.s2{background:radial-gradient(ellipse at 70% 30%,#2A0E0E 0%,#07101E 70%)}
+.s3{background:radial-gradient(ellipse at 30% 60%,#0B2447 0%,#07101E 70%)}
+.s4{background:radial-gradient(ellipse at 50% 50%,#0D1F3C 0%,#07101E 70%)}
+.s5{background:radial-gradient(ellipse at 20% 30%,#071F10 0%,#07101E 70%)}
+.s6{background:radial-gradient(ellipse at 70% 70%,#1A2A0A 0%,#07101E 70%)}
+.s7{background:radial-gradient(ellipse at 40% 40%,#0B2447 0%,#07101E 70%)}
+.s8{background:radial-gradient(ellipse at 60% 30%,#1F0D00 0%,#07101E 70%)}
+.biz1{background:radial-gradient(ellipse at 20% 50%,#0D2247 0%,#07101E 70%)}
+.biz2{background:radial-gradient(ellipse at 80% 30%,#2A1800 0%,#07101E 70%)}
+.biz3{background:radial-gradient(ellipse at 40% 65%,#071A0E 0%,#07101E 70%)}
+.s10{background:radial-gradient(ellipse at 50% 50%,#07101E 0%,#0B2447 100%)}
+.s11{background:radial-gradient(ellipse at 70% 30%,#071A0F 0%,#07101E 70%)}
+.s12{background:radial-gradient(ellipse at 50% 50%,#0F2460 0%,#07101E 60%)}
+.s13{background:radial-gradient(ellipse at 50% 50%,#1A3C8F 0%,#07101E 70%)}
+.eyebrow{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+.display{font-family:'Space Grotesk',sans-serif;font-weight:900;line-height:1.0}
+.title{font-family:'Space Grotesk',sans-serif;font-weight:700;line-height:1.1}
+.card{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:24px;transition:border-color .3s}
+.card:hover{border-color:rgba(255,255,255,0.25)}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:100%}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:24px;width:100%}
+.reveal{opacity:0;transform:translateY(18px)}
+.slide.active .reveal{animation:fadeUp .6s forwards}
+.reveal.d1{animation-delay:.1s!important}.reveal.d2{animation-delay:.25s!important}.reveal.d3{animation-delay:.4s!important}.reveal.d4{animation-delay:.55s!important}.reveal.d5{animation-delay:.7s!important}.reveal.d6{animation-delay:.85s!important}.reveal.d7{animation-delay:1s!important}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+@keyframes drive{from{transform:translateX(-160px)}to{transform:translateX(110vw)}}
+.bus-road{position:absolute;bottom:60px;left:0;width:100%;overflow:hidden;height:80px}
+.bus-svg{animation:drive 8s linear infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;display:inline-block}
+.badge-amber{background:rgba(246,166,35,.15);color:var(--amber);border:1px solid rgba(246,166,35,.3)}
+.badge-green{background:rgba(18,201,114,.15);color:var(--green);border:1px solid rgba(18,201,114,.3)}
+.badge-blue{background:rgba(26,60,143,.3);color:#7BA7FF;border:1px solid rgba(26,60,143,.5)}
+.badge-red{background:rgba(255,71,87,.15);color:var(--red);border:1px solid rgba(255,71,87,.3)}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--amber);color:#000;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.t-bar{height:4px;background:linear-gradient(90deg,var(--amber),var(--green));border-radius:2px;width:0}
+.slide.active .t-bar{transition:width 1.2s ease .5s}
+.tech-tag{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px}
+.stage-pip{width:36px;height:5px;border-radius:3px;display:inline-block;margin-right:6px}
+.row-stat{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.row-stat:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+<div class="live-indicator"><div class="live-dot"></div>LIVE</div>
+<div id="deck">
+
+<div class="slide s1 active" id="s1">
+  <div style="text-align:center;max-width:820px;z-index:1">
+    <div class="eyebrow reveal d1">Software Engineering &amp; Design Project II · ULAB · 2025</div>
+    <div class="display reveal d2" style="font-size:clamp(56px,8vw,100px);margin-bottom:16px">Uni<span style="color:var(--amber)">Track</span> BD</div>
+    <div class="reveal d3" style="font-size:clamp(16px,2vw,22px);color:rgba(255,255,255,0.65);margin-bottom:32px;font-weight:300;line-height:1.5">University Bus Tracker &amp; Automated Payment System<br><span style="font-size:14px">Never miss your bus. Always know your seat.</span></div>
+    <div class="reveal d4" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
+      <span class="badge badge-amber">Real-time GPS Tracking</span>
+      <span class="badge badge-green">Live Seat Intelligence</span>
+      <span class="badge badge-blue">QR Auto-Payment</span>
+    </div>
+    <div class="reveal d5" style="margin-top:32px;font-size:13px;color:rgba(255,255,255,0.35)">Team of 5 · Dhaka, Bangladesh</div>
+  </div>
+  <div class="bus-road">
+    <svg class="bus-svg" viewBox="0 0 140 60" width="140" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="8" width="136" height="44" rx="10" fill="#1A3C8F"/>
+      <rect x="8" y="14" width="28" height="20" rx="3" fill="rgba(255,255,255,0.3)"/>
+      <rect x="42" y="14" width="28" height="20" rx="3" fill="rgba(255,255,255,0.3)"/>
+      <rect x="76" y="14" width="28" height="20" rx="3" fill="rgba(255,255,255,0.3)"/>
+      <rect x="6" y="38" width="128" height="8" rx="2" fill="#0B2447"/>
+      <circle cx="25" cy="52" r="10" fill="#222" stroke="#F6A623" stroke-width="3"/>
+      <circle cx="25" cy="52" r="4" fill="#F6A623"/>
+      <circle cx="115" cy="52" r="10" fill="#222" stroke="#F6A623" stroke-width="3"/>
+      <circle cx="115" cy="52" r="4" fill="#F6A623"/>
+      <rect x="108" y="10" width="22" height="14" rx="2" fill="#F6A623" opacity=".9"/>
+      <text x="119" y="21" text-anchor="middle" font-size="8" font-weight="bold" fill="#000" font-family="Inter">BD</text>
+    </svg>
+  </div>
+  <div style="position:absolute;bottom:40px;left:0;right:0;height:2px;background:rgba(255,255,255,0.06)"></div>
+</div>
+
+<div class="slide s2" id="s2">
+  <div style="width:100%;max-width:1000px">
+    <div class="eyebrow reveal d1" style="color:var(--red)">The Problem</div>
+    <div class="title reveal d2" style="font-size:clamp(28px,4vw,48px);margin-bottom:36px">Every student in Dhaka knows<br><span style="color:var(--red)">this frustration.</span></div>
+    <div class="g3">
+      <div class="card reveal d3" style="border-top:3px solid var(--red)"><div style="font-size:36px;margin-bottom:12px">🚌</div><div class="title" style="font-size:16px;margin-bottom:8px">Zero real-time info</div><div style="font-size:13px;color:var(--muted);line-height:1.6">Traffic jam creates uncertainty — students wait at the wrong stop and miss their bus completely.</div></div>
+      <div class="card reveal d4" style="border-top:3px solid var(--amber)"><div style="font-size:36px;margin-bottom:12px">💺</div><div class="title" style="font-size:16px;margin-bottom:8px">Can’t check seats</div><div style="font-size:13px;color:var(--muted);line-height:1.6">No way to know if seats are available before walking to the bus stop. Students arrive and find the bus full.</div></div>
+      <div class="card reveal d5" style="border-top:3px solid #7BA7FF"><div style="font-size:36px;margin-bottom:12px">💸</div><div class="title" style="font-size:16px;margin-bottom:8px">Manual cash payment</div><div style="font-size:13px;color:var(--muted);line-height:1.6">Cash-only, paper-based system. Slow boarding, untracked revenue, zero receipts for students.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s3" id="s3">
+  <div style="width:100%;max-width:1000px;text-align:center">
+    <div class="eyebrow reveal d1">Our Solution</div>
+    <div class="display reveal d2" style="font-size:clamp(32px,5vw,60px);margin-bottom:14px">Introducing <span style="color:var(--amber)">UniTrack BD</span></div>
+    <div class="reveal d3" style="font-size:16px;color:var(--muted);margin-bottom:40px">One unified system. Three powerful modules.</div>
+    <div class="g3">
+      <div class="card reveal d3" style="padding:32px 24px;text-align:center"><div style="width:56px;height:56px;border-radius:16px;background:rgba(26,60,143,0.4);border:1px solid rgba(26,60,143,0.6);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px">📍</div><div class="title" style="font-size:18px;margin-bottom:8px;color:var(--amber)">Live Bus Tracking</div><div style="font-size:13px;color:var(--muted);line-height:1.65">Real-time GPS location of every university bus on an interactive map.</div></div>
+      <div class="card reveal d4" style="padding:32px 24px;text-align:center;border-color:rgba(18,201,114,0.25)"><div style="width:56px;height:56px;border-radius:16px;background:rgba(18,201,114,0.15);border:1px solid rgba(18,201,114,0.3);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px">💺</div><div class="title" style="font-size:18px;margin-bottom:8px;color:var(--green)">Seat Intelligence</div><div style="font-size:13px;color:var(--muted);line-height:1.65">Live seat availability updated in real-time by QR scans and helper board count.</div></div>
+      <div class="card reveal d5" style="padding:32px 24px;text-align:center;border-color:rgba(246,166,35,0.25)"><div style="width:56px;height:56px;border-radius:16px;background:rgba(246,166,35,0.15);border:1px solid rgba(246,166,35,0.3);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px">📱</div><div class="title" style="font-size:18px;margin-bottom:8px;color:var(--amber)">QR Auto-Payment</div><div style="font-size:13px;color:var(--muted);line-height:1.65">Students scan QR at boarding — payment auto-deducted, seat count updated instantly.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s4" id="s4">
+  <div style="width:100%;max-width:1000px">
+    <div class="eyebrow reveal d1">System Architecture</div>
+    <div class="title reveal d2" style="font-size:clamp(24px,3.5vw,40px);margin-bottom:40px">How it all <span style="color:var(--green)">connects</span></div>
+    <div class="reveal d3" style="display:flex;align-items:center;justify-content:space-between;gap:0;width:100%">
+      <div style="flex:1;text-align:center"><div class="card" style="padding:20px 14px;border-color:rgba(26,60,143,0.5)"><div style="font-size:36px;margin-bottom:8px">📱</div><div style="font-size:13px;font-weight:600;color:var(--amber)">Student App</div><div style="font-size:11px;color:var(--muted);margin-top:4px">Opens app<br>Views bus + seat</div></div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;padding:0 8px;color:var(--amber);font-size:20px">→<div style="font-size:9px;color:var(--muted);white-space:nowrap">Scans QR</div></div>
+      <div style="flex:1;text-align:center"><div class="card" style="padding:20px 14px;border-color:rgba(246,166,35,0.4);animation:pulse 3s infinite"><div style="font-size:36px;margin-bottom:8px">🚌</div><div style="font-size:13px;font-weight:600;color:var(--amber)">Bus + Helper</div><div style="font-size:11px;color:var(--muted);margin-top:4px">GPS signal<br>Board count</div></div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;padding:0 8px;color:var(--green);font-size:20px">→<div style="font-size:9px;color:var(--muted);white-space:nowrap">Real-time data</div></div>
+      <div style="flex:1;text-align:center"><div class="card" style="padding:20px 14px;border-color:rgba(18,201,114,0.3)"><div style="font-size:36px;margin-bottom:8px">⚙️</div><div style="font-size:13px;font-weight:600;color:var(--green)">Backend Server</div><div style="font-size:11px;color:var(--muted);margin-top:4px">Node.js + Socket.io<br>Process &amp; broadcast</div></div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;padding:0 8px;color:var(--green);font-size:20px">→<div style="font-size:9px;color:var(--muted);white-space:nowrap">Pushes updates</div></div>
+      <div style="flex:1;text-align:center"><div class="card" style="padding:20px 14px;border-color:rgba(123,167,255,0.3)"><div style="font-size:36px;margin-bottom:8px">📊</div><div style="font-size:13px;font-weight:600;color:#7BA7FF">Admin Panel</div><div style="font-size:11px;color:var(--muted);margin-top:4px">All buses live<br>Revenue &amp; analytics</div></div></div>
+    </div>
+    <div class="reveal d4" style="margin-top:20px;text-align:center;font-size:13px;color:var(--muted);padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--glass)">↑ Socket.io broadcasts real-time seat count + GPS updates to ALL connected student apps simultaneously ↑</div>
+  </div>
+</div>
+
+<div class="slide s5" id="s5">
+  <div style="width:100%;max-width:1000px">
+    <div class="eyebrow reveal d1">User Roles</div>
+    <div class="title reveal d2" style="font-size:clamp(24px,3.5vw,40px);margin-bottom:32px">Three people. <span style="color:var(--amber)">One system.</span></div>
+    <div class="g3">
+      <div class="card reveal d3" style="padding:28px 22px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><div style="font-size:28px">🎓</div><div><div class="title" style="font-size:16px">Student</div><div style="font-size:11px;color:var(--muted)">Primary user</div></div></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:var(--green)">✓</span>Live map with bus location</div>
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:var(--green)">✓</span>Real-time seat availability</div>
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:var(--green)">✓</span>QR code auto-payment</div>
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:var(--green)">✓</span>ETA push notification</div>
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:var(--green)">✓</span>Trip history &amp; receipts</div>
+        </div>
+      </div>
+      <div class="card reveal d4" style="padding:28px 22px;border-color:rgba(246,166,35,0.25)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><div style="font-size:28px">🚌</div><div><div class="title" style="font-size:16px">Bus Helper</div><div style="font-size:11px;color:var(--muted)">Conductor</div></div></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:var(--amber)">✓</span>Simple +/− board counter</div>
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:var(--amber)">✓</span>QR scan confirmation feed</div>
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:var(--amber)">✓</span>Live seat count sync</div>
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:var(--amber)">✓</span>Emergency alert button</div>
+        </div>
+      </div>
+      <div class="card reveal d5" style="padding:28px 22px;border-color:rgba(123,167,255,0.25)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><div style="font-size:28px">👔</div><div><div class="title" style="font-size:16px">Admin</div><div style="font-size:11px;color:var(--muted)">Transport office</div></div></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:#7BA7FF">✓</span>All buses on live map</div>
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:#7BA7FF">✓</span>Revenue dashboard</div>
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:#7BA7FF">✓</span>Ridership analytics</div>
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:#7BA7FF">✓</span>User management</div>
+          <div style="font-size:12px;display:flex;gap:8px"><span style="color:#7BA7FF">✓</span>Incident reporting</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s6" id="s6">
+  <div style="width:100%;max-width:1000px;display:flex;gap:48px;align-items:center">
+    <div style="flex:1">
+      <div class="eyebrow reveal d1" style="color:var(--green)">Feature Deep-Dive</div>
+      <div class="title reveal d2" style="font-size:clamp(24px,3.5vw,42px);margin-bottom:16px">Live Seat <span style="color:var(--green)">Intelligence</span></div>
+      <div class="reveal d3" style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:24px">Students see exact seat occupancy before deciding to go to the bus stop. Updated in real-time as each QR payment is scanned or helper logs a boarding.</div>
+      <div class="reveal d4" style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:rgba(18,201,114,0.1);border:1px solid rgba(18,201,114,0.3);border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px">Seats available</span><span style="color:var(--green);font-weight:700;font-size:18px">24</span></div>
+        <div style="height:6px;border-radius:4px;background:rgba(255,255,255,0.15);overflow:hidden"><div style="width:40%;height:100%;background:linear-gradient(90deg,var(--green),#1DE99E);border-radius:4px"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)"><span>0 taken</span><span>40 total</span></div>
+        <div style="display:flex;gap:10px;margin-top:4px"><span class="badge badge-green">🟢 Available</span><span class="badge badge-amber">🟡 Few left</span><span class="badge badge-red">🔴 Full</span></div>
+      </div>
+    </div>
+    <div class="reveal d3" style="flex:1;max-width:340px">
+      <div class="card" style="padding:24px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:14px;font-weight:500">BUS 3A — SEAT MAP</div>
+        <div id="seat-grid" style="display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin-bottom:16px"></div>
+        <div style="font-size:12px;color:var(--muted);display:flex;gap:14px"><span><span style="color:var(--green)">■</span> Free</span><span><span style="color:var(--red)">■</span> Taken</span><span><span style="color:var(--amber)">■</span> Reserved</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s7" id="s7">
+  <div style="width:100%;max-width:900px">
+    <div class="eyebrow reveal d1" style="color:var(--amber)">Feature Deep-Dive</div>
+    <div class="title reveal d2" style="font-size:clamp(24px,3.5vw,42px);margin-bottom:36px">QR Payment Flow in <span style="color:var(--amber)">4 steps</span></div>
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div class="reveal d2" style="display:flex;align-items:flex-start;gap:16px;margin-bottom:8px"><div class="step-num">1</div><div class="card" style="flex:1;padding:16px 20px"><div style="font-weight:600;font-size:14px;margin-bottom:4px">Student opens UniTrack app</div><div style="font-size:12px;color:var(--muted)">A unique QR code tied to their student ID and wallet is displayed.</div></div></div>
+      <div style="width:2px;height:20px;background:rgba(246,166,35,0.25);margin-left:17px"></div>
+      <div class="reveal d3" style="display:flex;align-items:flex-start;gap:16px;margin-bottom:8px"><div class="step-num">2</div><div class="card" style="flex:1;padding:16px 20px;border-color:rgba(246,166,35,0.3)"><div style="font-weight:600;font-size:14px;margin-bottom:4px">Helper scans QR at bus door</div><div style="font-size:12px;color:var(--muted)">Bus helper scans the student’s QR using the helper app. Takes under 2 seconds.</div></div></div>
+      <div style="width:2px;height:20px;background:rgba(246,166,35,0.25);margin-left:17px"></div>
+      <div class="reveal d4" style="display:flex;align-items:flex-start;gap:16px;margin-bottom:8px"><div class="step-num">3</div><div class="card" style="flex:1;padding:16px 20px;border-color:rgba(18,201,114,0.3)"><div style="font-weight:600;font-size:14px;margin-bottom:4px">Server processes &amp; broadcasts</div><div style="font-size:12px;color:var(--muted)">৳ 15 deducted from wallet. Seat count decrements by 1. All student apps refresh instantly via Socket.io.</div></div></div>
+      <div style="width:2px;height:20px;background:rgba(246,166,35,0.25);margin-left:17px"></div>
+      <div class="reveal d5" style="display:flex;align-items:flex-start;gap:16px"><div class="step-num">4</div><div class="card" style="flex:1;padding:16px 20px;border-color:rgba(18,201,114,0.5)"><div style="font-weight:600;font-size:14px;margin-bottom:4px;color:var(--green)">✅ Payment confirmed</div><div style="font-size:12px;color:var(--muted)">Student gets push notification: “Payment of ৳ 15 confirmed. Enjoy your ride!” Digital receipt saved to history.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s8" id="s8">
+  <div style="width:100%;max-width:1000px">
+    <div class="eyebrow reveal d1">Technology</div>
+    <div class="title reveal d2" style="font-size:clamp(24px,3.5vw,42px);margin-bottom:36px">Built on a <span style="color:var(--amber)">modern stack</span></div>
+    <div class="g2">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="reveal d2" style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">Frontend</div>
+        <div class="card reveal d2" style="display:flex;gap:12px;flex-wrap:wrap"><div class="tech-tag">📱 React Native <span class="badge badge-amber" style="margin-left:6px;font-size:10px">Mobile</span></div><div class="tech-tag">⚛️ React.js <span class="badge badge-blue" style="margin-left:6px;font-size:10px">Admin</span></div></div>
+        <div class="reveal d3" style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:4px">Backend</div>
+        <div class="card reveal d3" style="display:flex;gap:12px;flex-wrap:wrap"><div class="tech-tag">🟢 Node.js + Express</div><div class="tech-tag">⚡ Socket.io <span style="font-size:10px;color:var(--green);margin-left:4px">real-time</span></div><div class="tech-tag">🗄️ PostgreSQL</div><div class="tech-tag">🔴 Redis</div></div>
+        <div class="reveal d4" style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:4px">Services</div>
+        <div class="card reveal d4" style="display:flex;gap:12px;flex-wrap:wrap"><div class="tech-tag">🗺️ Google Maps API</div><div class="tech-tag">🔔 Firebase FCM</div><div class="tech-tag">📦 Cloudinary</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="reveal d2" style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">Payment (Bangladesh)</div>
+        <div class="card reveal d2" style="border-color:rgba(246,166,35,0.3)"><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px"><div class="tech-tag">📲 bKash QR API</div><div class="tech-tag">💳 Nagad API</div></div><div style="font-size:12px;color:var(--muted)">Local mobile banking integration for seamless ৳ transactions</div></div>
+        <div class="reveal d3" style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:4px">Auth &amp; Deploy</div>
+        <div class="card reveal d3" style="display:flex;gap:12px;flex-wrap:wrap"><div class="tech-tag">🔐 JWT + Roles</div><div class="tech-tag">🚀 Railway</div><div class="tech-tag">▲ Vercel</div></div>
+        <div class="reveal d4" style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:4px">Design</div>
+        <div class="card reveal d4" style="display:flex;gap:12px;flex-wrap:wrap"><div class="tech-tag">🎨 Figma</div><div class="tech-tag">📐 Space Grotesk + Inter</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 9: BUSINESS — STAGE 1 ULAB ===== -->
+<div class="slide biz1" id="s9">
+  <div style="width:100%;max-width:1020px">
+    <div class="reveal d1" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div class="eyebrow" style="margin:0;color:var(--amber)">💼 Business Case</div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="stage-pip" style="background:var(--amber)"></span>
+        <span class="stage-pip" style="background:rgba(255,255,255,0.15)"></span>
+        <span class="stage-pip" style="background:rgba(255,255,255,0.15)"></span>
+        <span style="font-size:11px;color:var(--muted);margin-left:4px;font-family:'Space Grotesk',sans-serif;font-weight:600">STAGE 1 OF 3</span>
+      </div>
+    </div>
+    <div class="title reveal d2" style="font-size:clamp(26px,3.8vw,44px);margin-bottom:6px">We start where we <span style="color:var(--amber)">know the problem.</span></div>
+    <div class="reveal d3" style="font-size:14px;color:var(--muted);margin-bottom:26px">ULAB — our own university — is the perfect pilot. We live this pain every day.</div>
+    <div class="g2" style="margin-bottom:18px">
+      <div class="card reveal d3" style="padding:22px;border-top:3px solid rgba(255,71,87,0.6)">
+        <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px">ULAB Today — The Gap</div>
+        <div class="row-stat"><span style="font-size:13px;color:rgba(255,255,255,0.75)">📚 Students enrolled</span><span style="font-size:15px;font-weight:700">15,000+</span></div>
+        <div class="row-stat"><span style="font-size:13px;color:rgba(255,255,255,0.75)">🚌 Campus buses</span><span style="font-size:15px;font-weight:700">8 buses</span></div>
+        <div class="row-stat"><span style="font-size:13px;color:rgba(255,255,255,0.75)">👥 Daily bus riders</span><span style="font-size:15px;font-weight:700">~2,000</span></div>
+        <div style="height:1px;background:rgba(255,71,87,0.15);margin:10px 0"></div>
+        <div class="row-stat"><span style="font-size:13px;color:rgba(255,255,255,0.75)">💸 Payment system</span><span style="font-size:13px;font-weight:600;color:var(--red)">Cash only ✗</span></div>
+        <div class="row-stat"><span style="font-size:13px;color:rgba(255,255,255,0.75)">📊 Revenue tracking</span><span style="font-size:13px;font-weight:600;color:var(--red)">Zero data ✗</span></div>
+        <div class="row-stat"><span style="font-size:13px;color:rgba(255,255,255,0.75)">📍 Bus tracking</span><span style="font-size:13px;font-weight:600;color:var(--red)">None ✗</span></div>
+      </div>
+      <div class="card reveal d4" style="padding:22px;border-top:3px solid var(--amber);border-color:rgba(246,166,35,0.3)">
+        <div style="font-size:12px;font-weight:600;color:var(--amber);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px">With UniTrack BD</div>
+        <div style="background:rgba(18,201,114,0.08);border:1px solid rgba(18,201,114,0.2);border-radius:12px;padding:14px;margin-bottom:16px;text-align:center">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Trackable bus revenue unlocked per year</div>
+          <div style="font-size:32px;font-weight:900;color:var(--green);font-family:'Space Grotesk',sans-serif">৳ 66 lakh</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">৳ 15 × 2,000 riders × 220 days</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="font-size:12px;display:flex;gap:8px;align-items:center"><span style="color:var(--green);font-size:14px;font-weight:700">✓</span>100% digital payment — every trip logged</div>
+          <div style="font-size:12px;display:flex;gap:8px;align-items:center"><span style="color:var(--green);font-size:14px;font-weight:700">✓</span>Live GPS for all 8 buses</div>
+          <div style="font-size:12px;display:flex;gap:8px;align-items:center"><span style="color:var(--green);font-size:14px;font-weight:700">✓</span>Seat data per trip, every day</div>
+          <div style="font-size:12px;display:flex;gap:8px;align-items:center"><span style="color:var(--amber);font-size:14px;font-weight:700">✓</span>Admin revenue + ridership dashboard</div>
+          <div style="font-size:12px;display:flex;gap:8px;align-items:center"><span style="color:var(--amber);font-size:14px;font-weight:700">✓</span>Student satisfaction dramatically ↑</div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal d5" style="background:rgba(246,166,35,0.05);border:1px solid rgba(246,166,35,0.2);border-radius:14px;padding:16px 22px">
+      <div style="font-size:11px;font-weight:600;color:var(--amber);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Our Revenue from ULAB — Year 1</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;text-align:center">
+        <div style="border-right:1px solid rgba(255,255,255,0.08);padding:0 12px"><div style="font-size:10px;color:var(--muted);margin-bottom:4px">Setup Fee</div><div style="font-size:18px;font-weight:800;color:var(--amber);font-family:'Space Grotesk',sans-serif">৳ 50K</div><div style="font-size:10px;color:var(--muted)">one-time</div></div>
+        <div style="border-right:1px solid rgba(255,255,255,0.08);padding:0 12px"><div style="font-size:10px;color:var(--muted);margin-bottom:4px">Monthly SaaS</div><div style="font-size:18px;font-weight:800;color:var(--amber);font-family:'Space Grotesk',sans-serif">৳ 15K</div><div style="font-size:10px;color:var(--muted)">৳ 1.8L / year</div></div>
+        <div style="border-right:1px solid rgba(255,255,255,0.08);padding:0 12px"><div style="font-size:10px;color:var(--muted);margin-bottom:4px">Transaction Cut</div><div style="font-size:18px;font-weight:800;color:var(--amber);font-family:'Space Grotesk',sans-serif">2%</div><div style="font-size:10px;color:var(--muted)">৳ 1.32L / year</div></div>
+        <div style="padding:0 12px"><div style="font-size:10px;color:var(--muted);margin-bottom:4px">Year 1 Total</div><div style="font-size:18px;font-weight:800;color:var(--green);font-family:'Space Grotesk',sans-serif">৳ 3.6L</div><div style="font-size:10px;color:var(--muted)">from 1 university</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 10: BUSINESS — STAGE 2 UNIVERSITIES ===== -->
+<div class="slide biz2" id="s10">
+  <div style="width:100%;max-width:1020px">
+    <div class="reveal d1" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div class="eyebrow" style="margin:0;color:var(--amber)">💼 Business Case</div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="stage-pip" style="background:var(--amber)"></span>
+        <span class="stage-pip" style="background:var(--amber)"></span>
+        <span class="stage-pip" style="background:rgba(255,255,255,0.15)"></span>
+        <span style="font-size:11px;color:var(--muted);margin-left:4px;font-family:'Space Grotesk',sans-serif;font-weight:600">STAGE 2 OF 3</span>
+      </div>
+    </div>
+    <div class="title reveal d2" style="font-size:clamp(26px,3.8vw,44px);margin-bottom:6px">Then we go to <span style="color:var(--amber)">every university in Dhaka.</span></div>
+    <div class="reveal d3" style="font-size:14px;color:var(--muted);margin-bottom:24px">Same pain. Same solution. 20+ universities. Pure B2B SaaS — no new hardware needed.</div>
+    <div class="g2" style="margin-bottom:18px">
+      <div class="card reveal d3" style="padding:22px">
+        <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px">Target Universities — Dhaka</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <div style="font-size:12px;padding:6px 10px;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.8)">🏫 ULAB <span style="color:var(--green);font-size:10px">✓ Pilot</span></div>
+          <div style="font-size:12px;padding:6px 10px;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.8)">🏫 NSU</div>
+          <div style="font-size:12px;padding:6px 10px;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.8)">🏫 BRAC University</div>
+          <div style="font-size:12px;padding:6px 10px;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.8)">🏫 East West Univ.</div>
+          <div style="font-size:12px;padding:6px 10px;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.8)">🏫 DIU</div>
+          <div style="font-size:12px;padding:6px 10px;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.8)">🏫 AIUB</div>
+          <div style="font-size:12px;padding:6px 10px;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.8)">🏫 IUB</div>
+          <div style="font-size:12px;padding:6px 10px;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.8)">🏫 UIU</div>
+          <div style="font-size:12px;padding:6px 10px;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.8)">🏫 Daffodil Intl.</div>
+          <div style="font-size:12px;padding:6px 10px;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.8)">🏫 + 10 more...</div>
+        </div>
+        <div style="margin-top:14px;padding:10px 14px;background:rgba(246,166,35,0.08);border-radius:10px;border:1px solid rgba(246,166,35,0.2)">
+          <div style="font-size:12px;color:var(--amber);font-weight:600">150+ universities across Bangladesh</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">TAM: every private university with a bus service</div>
+        </div>
+      </div>
+      <div class="card reveal d4" style="padding:22px;border-color:rgba(246,166,35,0.25)">
+        <div style="font-size:12px;font-weight:600;color:var(--amber);text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px">Revenue Scale — SaaS Growth</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:60px;font-size:12px;color:var(--muted)">Year 1</div>
+            <div style="flex:1;height:28px;background:rgba(255,255,255,0.05);border-radius:6px;overflow:hidden;position:relative"><div style="width:18%;height:100%;background:rgba(246,166,35,0.7);border-radius:6px;display:flex;align-items:center;padding-left:8px"></div></div>
+            <div style="width:72px;font-size:13px;font-weight:700;color:var(--amber);text-align:right">৳ 3.6L</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:60px;font-size:12px;color:var(--muted)">Year 2</div>
+            <div style="flex:1;height:28px;background:rgba(255,255,255,0.05);border-radius:6px;overflow:hidden"><div style="width:45%;height:100%;background:rgba(246,166,35,0.8);border-radius:6px"></div></div>
+            <div style="width:72px;font-size:13px;font-weight:700;color:var(--amber);text-align:right">৳ 18L</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:60px;font-size:12px;color:var(--muted)">Year 3</div>
+            <div style="flex:1;height:28px;background:rgba(255,255,255,0.05);border-radius:6px;overflow:hidden"><div style="width:75%;height:100%;background:rgba(246,166,35,0.9);border-radius:6px"></div></div>
+            <div style="width:72px;font-size:13px;font-weight:700;color:var(--amber);text-align:right">৳ 36L</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:60px;font-size:12px;color:var(--muted)">Year 4</div>
+            <div style="flex:1;height:28px;background:rgba(255,255,255,0.05);border-radius:6px;overflow:hidden"><div style="width:100%;height:100%;background:linear-gradient(90deg,var(--amber),var(--green));border-radius:6px"></div></div>
+            <div style="width:72px;font-size:13px;font-weight:700;color:var(--green);text-align:right">৳ 56L+</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
+          <div style="text-align:center;padding:10px;background:rgba(255,255,255,0.04);border-radius:10px"><div style="font-size:20px;font-weight:800;color:var(--amber);font-family:'Space Grotesk',sans-serif">20+</div><div style="font-size:10px;color:var(--muted);margin-top:2px">Target unis</div></div>
+          <div style="text-align:center;padding:10px;background:rgba(255,255,255,0.04);border-radius:10px"><div style="font-size:20px;font-weight:800;color:var(--green);font-family:'Space Grotesk',sans-serif">50K+</div><div style="font-size:10px;color:var(--muted);margin-top:2px">Daily riders</div></div>
+          <div style="text-align:center;padding:10px;background:rgba(255,255,255,0.04);border-radius:10px"><div style="font-size:20px;font-weight:800;color:#7BA7FF;font-family:'Space Grotesk',sans-serif">৳ 0</div><div style="font-size:10px;color:var(--muted);margin-top:2px">Competitors BD</div></div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);padding:10px 12px;background:rgba(18,201,114,0.06);border-radius:8px;border:1px solid rgba(18,201,114,0.15)">
+          <span style="color:var(--green);font-weight:600">✓ SaaS model:</span> no hardware per university. One cloud integration. Unlimited buses.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 11: BUSINESS — STAGE 3 DHAKA CITY ===== -->
+<div class="slide biz3" id="s11">
+  <div style="width:100%;max-width:1020px">
+    <div class="reveal d1" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div class="eyebrow" style="margin:0;color:var(--green)">💼 Business Case</div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="stage-pip" style="background:var(--amber)"></span>
+        <span class="stage-pip" style="background:var(--amber)"></span>
+        <span class="stage-pip" style="background:var(--green)"></span>
+        <span style="font-size:11px;color:var(--muted);margin-left:4px;font-family:'Space Grotesk',sans-serif;font-weight:600">STAGE 3 OF 3</span>
+      </div>
+    </div>
+    <div class="title reveal d2" style="font-size:clamp(24px,3.5vw,42px);margin-bottom:6px">Then we transform <span style="color:var(--green)">transport for all of Dhaka.</span></div>
+    <div class="reveal d3" style="font-size:14px;color:var(--muted);margin-bottom:24px">UniTrack BD → CityTrack BD. Partner with BRTC and private operators to digitise all of Dhaka’s buses.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px">
+      <div class="card reveal d3" style="padding:20px;text-align:center;border-color:rgba(18,201,114,0.25)">
+        <div style="font-size:36px;font-weight:900;color:var(--green);font-family:'Space Grotesk',sans-serif">21M+</div>
+        <div style="font-size:13px;font-weight:600;margin:6px 0 4px">Dhaka population</div>
+        <div style="font-size:11px;color:var(--muted)">One of the most densely populated cities on earth</div>
+      </div>
+      <div class="card reveal d4" style="padding:20px;text-align:center;border-color:rgba(246,166,35,0.25)">
+        <div style="font-size:36px;font-weight:900;color:var(--amber);font-family:'Space Grotesk',sans-serif">5,000+</div>
+        <div style="font-size:13px;font-weight:600;margin:6px 0 4px">City buses</div>
+        <div style="font-size:11px;color:var(--muted)">BRTC + private operators. Zero GPS. Zero digital payment.</div>
+      </div>
+      <div class="card reveal d5" style="padding:20px;text-align:center;border-color:rgba(123,167,255,0.25)">
+        <div style="font-size:36px;font-weight:900;color:#7BA7FF;font-family:'Space Grotesk',sans-serif">3.5M</div>
+        <div style="font-size:13px;font-weight:600;margin:6px 0 4px">Daily commuters</div>
+        <div style="font-size:11px;color:var(--muted)">Riding buses with cash in hand, no real-time info</div>
+      </div>
+    </div>
+    <div class="g2" style="margin-bottom:14px">
+      <div class="card reveal d4" style="padding:20px">
+        <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px">City Partners &amp; Alignment</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:12px;align-items:flex-start"><div style="font-size:20px">🏛️</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">BRTC (Govt. Bus)</div><div style="font-size:11px;color:var(--muted)">Bangladesh Road Transport Corporation — largest bus operator in BD</div></div></div>
+          <div style="display:flex;gap:12px;align-items:flex-start"><div style="font-size:20px">🛳️</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">DTCA (Transport Authority)</div><div style="font-size:11px;color:var(--muted)">Dhaka Transport Coordination Authority — regulates all city routes</div></div></div>
+          <div style="display:flex;gap:12px;align-items:flex-start"><div style="font-size:20px">🏙️</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">Smart Dhaka City 2030</div><div style="font-size:11px;color:var(--muted)">Govt. initiative for digital transport infrastructure</div></div></div>
+          <div style="display:flex;gap:12px;align-items:flex-start"><div style="font-size:20px">💳</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">bKash / Nagad City Integration</div><div style="font-size:11px;color:var(--muted)">Leverage existing mobile banking infrastructure already trusted by millions</div></div></div>
+        </div>
+      </div>
+      <div class="card reveal d5" style="padding:20px;border-color:rgba(18,201,114,0.25)">
+        <div style="font-size:12px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px">Revenue at City Scale</div>
+        <div style="background:rgba(18,201,114,0.08);border:1px solid rgba(18,201,114,0.2);border-radius:12px;padding:16px;margin-bottom:14px;text-align:center">
+          <div style="font-size:12px;color:var(--muted);margin-bottom:6px">At 10% market capture (350K trips/day)</div>
+          <div style="font-size:38px;font-weight:900;color:var(--green);font-family:'Space Grotesk',sans-serif">৳ 5 crore+</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">per year — transaction fees alone</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div class="row-stat"><span style="font-size:12px;color:var(--muted)">350K trips/day × ৳ 20 avg</span><span style="font-size:12px;font-weight:600">৳ 70L/day</span></div>
+          <div class="row-stat"><span style="font-size:12px;color:var(--muted)">Our 2% transaction cut</span><span style="font-size:12px;font-weight:600;color:var(--amber)">৳ 1.4L/day</span></div>
+          <div class="row-stat"><span style="font-size:12px;color:var(--muted)">Annualised (300 days)</span><span style="font-size:12px;font-weight:600;color:var(--green)">৳ 4.2 crore</span></div>
+          <div class="row-stat"><span style="font-size:12px;color:var(--muted)">+ Operator SaaS fees</span><span style="font-size:12px;font-weight:600;color:var(--green)">+ ৳ 1 crore</span></div>
+        </div>
+        <div style="margin-top:12px;padding:8px 12px;background:rgba(18,201,114,0.08);border-radius:8px;text-align:center"><span style="font-size:12px;color:var(--green);font-weight:600">🌏 Total Year 5 vision: ৳ 5+ crore / year</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s10" id="s12">
+  <div style="width:100%;max-width:1000px;text-align:center">
+    <div class="eyebrow reveal d1">Our Team</div>
+    <div class="title reveal d2" style="font-size:clamp(24px,3.5vw,42px);margin-bottom:36px">5 engineers. <span style="color:var(--amber)">One vision.</span></div>
+    <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap">
+      <div class="card reveal d2" style="width:165px;padding:22px 16px;text-align:center"><div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#2D5CC8);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:22px">👨‍💼</div><div style="font-size:13px;font-weight:600;margin-bottom:4px">Member 1</div><div style="font-size:11px;color:var(--amber)">PM + Backend Lead</div><div style="font-size:10px;color:var(--muted);margin-top:6px">Auth · DB schema · GPS</div></div>
+      <div class="card reveal d3" style="width:165px;padding:22px 16px;text-align:center"><div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1A4C2F,#12C972);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:22px">👨‍💻</div><div style="font-size:13px;font-weight:600;margin-bottom:4px">Member 2</div><div style="font-size:11px;color:var(--green)">Backend Dev</div><div style="font-size:10px;color:var(--muted);margin-top:6px">QR · Socket.io · Pay</div></div>
+      <div class="card reveal d4" style="width:165px;padding:22px 16px;text-align:center;border-color:rgba(246,166,35,0.3)"><div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#3A2A00,var(--amber));margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:22px">📱</div><div style="font-size:13px;font-weight:600;margin-bottom:4px">Member 3</div><div style="font-size:11px;color:var(--amber)">Mobile Dev</div><div style="font-size:10px;color:var(--muted);margin-top:6px">React Native · Maps</div></div>
+      <div class="card reveal d5" style="width:165px;padding:22px 16px;text-align:center;border-color:rgba(123,167,255,0.3)"><div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#0A1640,#7BA7FF);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:22px">🖥️</div><div style="font-size:13px;font-weight:600;margin-bottom:4px">Member 4</div><div style="font-size:11px;color:#7BA7FF">Frontend Dev</div><div style="font-size:10px;color:var(--muted);margin-top:6px">React admin · Helper UI</div></div>
+      <div class="card reveal d6" style="width:165px;padding:22px 16px;text-align:center;border-color:rgba(18,201,114,0.2)"><div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1A0F30,#9B59B6);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:22px">🧪</div><div style="font-size:13px;font-weight:600;margin-bottom:4px">Member 5</div><div style="font-size:11px;color:#C39BD3">QA + Docs</div><div style="font-size:10px;color:var(--muted);margin-top:6px">Testing · SRS · Deploy</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s11" id="s13">
+  <div style="width:100%;max-width:1000px">
+    <div class="eyebrow reveal d1">Feature Roadmap</div>
+    <div class="title reveal d2" style="font-size:clamp(24px,3.5vw,42px);margin-bottom:32px">More features <span style="color:var(--amber)">in v2</span></div>
+    <div class="g3">
+      <div class="card reveal d2" style="border-top:3px solid var(--amber)"><div style="font-size:24px;margin-bottom:10px">⏱️</div><div style="font-size:14px;font-weight:600;margin-bottom:6px">Bus ETA Display</div><div style="font-size:12px;color:var(--muted)">“Bus 3A arriving in 4 minutes” — calculated from GPS + route distance</div></div>
+      <div class="card reveal d3"><div style="font-size:24px;margin-bottom:10px">🎫</div><div style="font-size:14px;font-weight:600;margin-bottom:6px">Semester Pass</div><div style="font-size:12px;color:var(--muted)">Pre-pay for full semester, auto-deduct ৳ 15 per trip</div></div>
+      <div class="card reveal d4"><div style="font-size:24px;margin-bottom:10px">🔓</div><div style="font-size:14px;font-weight:600;margin-bottom:6px">Auto Seat Release</div><div style="font-size:12px;color:var(--muted)">Paid but not boarded in 10 min → seat freed automatically</div></div>
+      <div class="card reveal d3"><div style="font-size:24px;margin-bottom:10px">🔥</div><div style="font-size:14px;font-weight:600;margin-bottom:6px">Ridership Heatmap</div><div style="font-size:12px;color:var(--muted)">Peak hour data + busiest stop visualisation for admin planning</div></div>
+      <div class="card reveal d4"><div style="font-size:24px;margin-bottom:10px">🚨</div><div style="font-size:14px;font-weight:600;margin-bottom:6px">Incident Reporting</div><div style="font-size:12px;color:var(--muted)">Driver taps SOS → admin + students notified of breakdown instantly</div></div>
+      <div class="card reveal d5"><div style="font-size:24px;margin-bottom:10px">📈</div><div style="font-size:14px;font-weight:600;margin-bottom:6px">Revenue Analytics</div><div style="font-size:12px;color:var(--muted)">QR vs card split, daily/weekly earnings for transport office</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="slide s13" id="s14">
+  <div style="text-align:center;max-width:700px">
+    <div class="eyebrow reveal d1" style="color:var(--green)">Thank You</div>
+    <div class="display reveal d2" style="font-size:clamp(40px,6vw,80px);margin-bottom:20px">Let’s build<br><span style="color:var(--amber)">smarter transport</span><br>for Bangladesh 🇧🇩</div>
+    <div class="reveal d3" style="font-size:15px;color:var(--muted);margin-bottom:28px;line-height:1.7">
+      UniTrack BD — University → City → Bangladesh<br>
+      <span style="font-size:13px">Software Engineering &amp; Design Project II · ULAB</span>
+    </div>
+    <div class="reveal d4" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+      <span class="badge badge-amber">Stage 1: ULAB Pilot</span>
+      <span style="color:var(--muted);font-size:18px">→</span>
+      <span class="badge badge-green">Stage 2: 20 Universities</span>
+      <span style="color:var(--muted);font-size:18px">→</span>
+      <span class="badge badge-blue">Stage 3: Dhaka City</span>
+    </div>
+    <div class="reveal d5" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:32px">
+      <span class="badge badge-amber">React Native</span>
+      <span class="badge badge-green">Node.js</span>
+      <span class="badge badge-blue">Socket.io</span>
+      <span class="badge badge-green">bKash QR</span>
+    </div>
+    <div class="card reveal d6" style="display:inline-block;padding:18px 36px;border-color:rgba(246,166,35,0.4)">
+      <div style="font-size:20px;font-weight:800;color:var(--amber);font-family:'Space Grotesk',sans-serif">Questions? 🙋</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px">We’re happy to walk through any part of the system in detail.</div>
+    </div>
+  </div>
+  <div style="position:absolute;width:500px;height:500px;border-radius:50%;border:1px solid rgba(246,166,35,0.08);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none"></div>
+  <div style="position:absolute;width:700px;height:700px;border-radius:50%;border:1px solid rgba(246,166,35,0.05);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none"></div>
+</div>
+
+</div>
+
+<div class="nav">
+  <button class="nav-btn" onclick="navigate(-1)">←</button>
+  <div class="slide-count" id="counter">1 / 14</div>
+  <button class="nav-btn" onclick="navigate(1)">→</button>
+</div>
+<div class="dots" id="dots"></div>
+
+<script>
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+let cur=0;
+const dotsEl=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);});
+function goTo(n){slides[cur].classList.remove('active','exit');cur=Math.max(0,Math.min(total-1,n));slides[cur].classList.add('active');slides[cur].querySelectorAll('.reveal').forEach(el=>{el.style.animation='none';void el.offsetWidth;el.style.animation='';});if(cur===5)initSeats();document.getElementById('counter').textContent=(cur+1)+' / '+total;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===cur));}
+function navigate(dir){goTo(cur+dir);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')navigate(1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')navigate(-1);});
+function initSeats(){const grid=document.getElementById('seat-grid');if(!grid||grid.children.length>0)return;const pattern=[1,1,0,1,1,0,1,1,1,1,0,1,0,0,1,1,1,1,0,1,1,0,1,1,0,2,0,1,1,0,2,1,0,1,0,1,1,0,1,0];pattern.forEach(t=>{const s=document.createElement('div');s.className='seat';s.style.cssText=t===1?'background:#12C972;border-radius:5px;opacity:.85;width:22px;height:22px':t===2?'background:#F6A623;border-radius:5px;opacity:.85;width:22px;height:22px':'background:#FF4757;border-radius:5px;opacity:.85;width:22px;height:22px';grid.appendChild(s);});}
+goTo(0);
+</script>
+</body>
+</html>
